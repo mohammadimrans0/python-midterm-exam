@@ -23,3 +23,31 @@ class Hall(Star_Cinema):
 
         seat_allocation = [["free" for _ in range(self.cols)] for _ in range(self.rows)]
         self.seats[show_id] = seat_allocation
+
+
+    def book_seats(self, show_id, seat_list):
+        if show_id not in self.seats:
+            print(f"Your {show_id} is not correct.")
+            return
+
+        seat_allocation = self.seats[show_id]
+
+        for row, col in seat_list:
+            if 0 <= row < self.rows and 0 <= col < self.cols:
+                if seat_allocation[row][col] == "free":
+                    seat_allocation[row][col] = "booked"
+                    print(f"Seat ({row}, {col}) has been successfully booked.")
+                else:
+                    print(f"Seat ({row}, {col}) is already booked.")
+            else:
+                print(f"Seat ({row}, {col}) is not available.")
+
+    
+    def view_show_list(self):
+        if not self.show_list:
+            print("No shows are currently avaiable.")
+            return
+
+        print(f"Shows running in Hall {self.hall_no}:")
+        for show_id, movie_name, time in self.show_list:
+            print(f"Show ID: {show_id}, Movie: {movie_name}, Time: {time}")
