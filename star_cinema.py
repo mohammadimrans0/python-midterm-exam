@@ -15,3 +15,11 @@ class Hall(Star_Cinema):
 
         # insert this hall instance into Star_Cinema's hall_list
         self.entry_hall(self)
+
+    
+    def entry_show(self, show_id, movie_name, time):
+        show_info = (show_id, movie_name, time)
+        self.show_list.append(show_info)
+
+        seat_allocation = [["free" for _ in range(self.cols)] for _ in range(self.rows)]
+        self.seats[show_id] = seat_allocation
