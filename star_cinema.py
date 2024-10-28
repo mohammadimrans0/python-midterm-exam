@@ -1,9 +1,11 @@
+# Task : 1
 class Star_Cinema:
     hall_list = []
 
     def entry_hall(self, hall):
         self.hall_list.append(hall)
 
+# Task : 2
 class Hall(Star_Cinema):
     def __init__(self, rows, cols, hall_no):
         super().__init__()
@@ -17,6 +19,7 @@ class Hall(Star_Cinema):
         self.entry_hall(self)
 
     
+    # Task : 3
     def entry_show(self, show_id, movie_name, time):
         show_info = (show_id, movie_name, time)
         self.show_list.append(show_info)
@@ -25,6 +28,7 @@ class Hall(Star_Cinema):
         self.seats[show_id] = seat_allocation
 
 
+    # Task : 4
     def book_seats(self, show_id, seat_list):
         if show_id not in self.seats:
             print(f"Your {show_id} is not correct.")
@@ -42,12 +46,47 @@ class Hall(Star_Cinema):
             else:
                 print(f"Seat ({row}, {col}) is not available.")
 
-    
+    # Task : 5
     def view_show_list(self):
         if not self.show_list:
             print("No shows are currently avaiable.")
             return
 
-        print(f"Shows running in Hall {self.hall_no}:")
         for show_id, movie_name, time in self.show_list:
             print(f"Show ID: {show_id}, Movie: {movie_name}, Time: {time}")
+
+
+    # Task : 6
+    def view_available_seats(self, show_id):
+        if show_id not in self.seats:
+            print(f"Your {show_id} does not exist.")
+            return
+
+        seat_allocation = self.seats[show_id]
+        available_seats = []
+        
+        # display all available seats
+        for row in range(self.rows):
+            for col in range(self.cols):
+                if seat_allocation[row][col] == "free":
+                    available_seats.append((row, col))
+
+        if available_seats:
+            for seat in available_seats:
+                print(f"Seat : {seat} is available.")
+        else:
+            print("No seats available for this show.")
+
+
+# created a hall instance
+star_cineflex = Hall(3, 5, "hall_1")
+
+# creating show
+star_cineflex.entry_show("show_1", "Inception", "7:00 PM")
+star_cineflex.entry_show("show_2", "Interstellar", "9:00 PM")
+
+# booking seat
+star_cineflex.book_seats("show_1", [(0, 0), (1, 1), (2, 2)])
+
+# showing available seats
+star_cineflex.view_available_seats("show_1")
