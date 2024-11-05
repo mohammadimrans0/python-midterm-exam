@@ -8,11 +8,11 @@ class Star_Cinema:
 
 # Task : 2
 class Hall(Star_Cinema):
-    def __init__(self, rows, cols, hall_no):
+    def __init__(self, rows, cols, hall_name):
         super().__init__()
         self._rows = rows    # Task : 9 -> protected attribute            
         self._cols = cols                
-        self._hall_no = hall_no          
+        self._hall_name = hall_name          
         self._seats = {}                 
         self._show_list = []               
 
@@ -30,7 +30,7 @@ class Hall(Star_Cinema):
     # Task : 4
     def book_seats(self, show_id, seat_list):
         if show_id not in self._seats: 
-            print(f"Your {show_id} is not correct.")
+            print(f"Your show id: {show_id} is not correct.")
             return
 
         seat_allocation = self._seats[show_id] 
@@ -39,78 +39,92 @@ class Hall(Star_Cinema):
             if 0 <= row < self._rows and 0 <= col < self._cols: 
                 if seat_allocation[row][col] == "free":
                     seat_allocation[row][col] = "booked"
-                    print(f"Seat ({row}, {col}) has been successfully booked.")
+                    print(f"\nSeat ({row}, {col}) has been successfully booked.\n")
                 else:
                     print(f"Seat ({row}, {col}) is already booked.")
             else:
                 print(f"Seat ({row}, {col}) is not available.")
 
     # Task : 5
-    def view_show_list(self):
+    def view_show_lists(self):
         if not self._show_list: 
             print("No shows are currently available.")
             return
 
-        for show_id, movie_name, time in self._show_list: 
-            print(f"Show ID: {show_id}, Movie: {movie_name}, Time: {time}")
+        print("---------------------------------")
+        print("Show List :")
+        print("Show_id\tName\tTime")
+        for show_id, movie_name, time in self._show_list:
+            print(f"{show_id}\t{movie_name}\t{time}")
+        print("----------------------------------")    
 
 
     # Task : 6
     def view_available_seats(self, show_id):
         if show_id not in self._seats: 
-            print(f"Your {show_id} does not exist.")
+            print(f"Your show id: {show_id} does not exist.")
             return
 
         seat_allocation = self._seats[show_id] 
-        available_seats = []
+
+        print(f"\nAvailable seats for Show ID: {show_id}\n")
         
         # Display all available seats
-        for row in range(self._rows): 
-            for col in range(self._cols): 
-                if seat_allocation[row][col] == "free":
-                    available_seats.append((row, col))
+        for row in range(self._rows):
+            row_display = []
+            for col in range(self._cols):
+                status = "available" if seat_allocation[row][col] == "free" else "booked"
+                row_display.append(f"({row},{col})-> {status}")
+            print(f"[ {'  '.join(row_display)} ]")
 
-        if available_seats:
-            for seat in available_seats:
-                print(f"Seat : {seat} is available.")
-        else:
-            print("No seats available for this show.")
+        print()
 
 
 # Task : 7
-class Counter:
-    def __init__(self, hall):
-        self.hall = hall
 
-    def view_shows(self):
-        self.hall.view_show_list()
+ # create a hall
+hall1 = Hall(3, 5, "Star_Cineflex")
 
-    def view_available_seats(self, show_id):
-        self.hall.view_available_seats(show_id)
+while True:
 
-    def book_tickets(self, show_id, seat_list):
-        print(f"Ticket booked successfully for '{show_id}'")
-        self.hall.book_seats(show_id, seat_list)
+    print(f"Welcome {hall1._hall_name} !!\n")
+    print("1. Entry Show")
+    print("2. View Shows")
+    print("3. View Available Seat")
+    print("4. Book Seat")
+    print("5. Exit")
+    
+    choice = int(input("Enter Your Choice : "))
 
+    if choice == 1:
+        show_id = input("Enter the show ID: ")
+        movie_name = input("Enter the name of the movie : ")
+        time = input("Enter the show time : ")
 
-# Create a hall
-star_cineflex = Hall(3, 5, "hall_1")
+        hall1.entry_show(show_id, movie_name, time)
+        
+    elif choice == 2:
+        hall1.view_show_lists()
+        
+    elif choice == 3:
+        show_id = input("Enter the show ID: ")
 
-# Create shows
-star_cineflex.entry_show("show_1", "Inception", "7:00 PM")
-star_cineflex.entry_show("show_2", "Interstellar", "9:00 PM")
+        hall1.view_available_seats(show_id)
 
-# Create a counter for the hall
-counter = Counter(star_cineflex)
+    elif choice == 4:
+        show_id = input("Enter the show ID: ")
+        num_seats = int(input("Enter the number of seats to book: "))
+        seat_list = []
+        
+        for i in range(num_seats):
+            row = int(input(f"Enter row for seat {i + 1}: "))
+            col = int(input(f"Enter column for seat {i + 1}: "))
+            seat_list.append((row, col))
 
-# View shows
-counter.view_shows()
+        hall1.book_seats(show_id, seat_list)
 
-# View available seats for show
-counter.view_available_seats("show_1")
-
-# Book some seats for show
-counter.book_tickets("show_1", [(0, 0), (1, 1)])
-
-# Show available seats again after bookings
-counter.view_available_seats("show_1")
+    elif choice == 5:
+        break
+    else:
+        print("Invalid Input")
+        
