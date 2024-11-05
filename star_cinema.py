@@ -30,7 +30,7 @@ class Hall(Star_Cinema):
     # Task : 4
     def book_seats(self, show_id, seat_list):
         if show_id not in self._seats: 
-            print(f"Your show id: {show_id} is not correct.")
+            print(f"\nShow Id: {show_id} is not correct. Provide a valid Show Id.\n")
             return
 
         seat_allocation = self._seats[show_id] 
@@ -48,21 +48,21 @@ class Hall(Star_Cinema):
     # Task : 5
     def view_show_lists(self):
         if not self._show_list: 
-            print("No shows are currently available.")
+            print("\nNo shows are currently available. Please, first create/entry a show.\n")
             return
 
         print("---------------------------------")
         print("Show List :")
-        print("Show_id\tName\tTime")
+        print("Show_Id\t\tName\t\tTime")
         for show_id, movie_name, time in self._show_list:
-            print(f"{show_id}\t{movie_name}\t{time}")
+            print(f"{show_id}\t\t{movie_name}\t\t{time}")
         print("----------------------------------")    
 
 
     # Task : 6
     def view_available_seats(self, show_id):
         if show_id not in self._seats: 
-            print(f"Your show id: {show_id} does not exist.")
+            print(f"\nShow Id: {show_id} does not exist. Provide a valid Show Id.\n")
             return
 
         seat_allocation = self._seats[show_id] 
